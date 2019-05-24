@@ -21,20 +21,24 @@ public class MyList {
     }
     
     void addToHead(int x){
-        head.next = head;
-        head.info = x;
-        if(tail == null){
-            tail = head;
+        if (isEmpty()){
+            head = tail = new Node(x);
+        }else
+        {
+            Node newNode = new Node(x);
+            newNode.next = head;
+            head = newNode;
         }
     }
     
     void addToTail(int x){
         Node q = new Node(x);
         if (isEmpty()){
-            head = tail = null;
+            head = tail = q;
+        }else{
+            tail.next = q;
+            tail = q;
         }
-        tail.next = q;
-        tail = q;
     }
     
     void addAfter(Node p, int x){
@@ -62,8 +66,10 @@ public class MyList {
     void traverse(){
         Node currentNode = head;
         while (currentNode != null){
-            System.out.println(currentNode);
+            System.out.print(currentNode);
+            currentNode = currentNode.next;
         }
+        System.out.println("");
     }
     
     int deleFromHead(){
@@ -250,5 +256,100 @@ public class MyList {
         return item;
     }
     
+    void addBefore(Node p, int x){
+        if (isEmpty()){
+            System.out.println("The given list is empty");
+            return;
+        }
+        
+        Node currentNode = head;
+        Node preNode = new Node();
+        
+        while(currentNode.info != p.info && currentNode != null){
+            preNode = currentNode;
+            currentNode = currentNode.next;
+        }
+        
+        Node newNode = new Node(x);
+        preNode.next = newNode;
+        newNode.next = currentNode;
+    }
     
+    //18. find max info
+    int findMax(){
+        Node currentNode = head;
+        int max = head.info;
+        
+        while(currentNode != null){
+            if (max < currentNode.info){
+                max = currentNode.info;
+            }
+            currentNode = currentNode.next;
+        }
+        return max;
+    }
+    
+    int findMin(){
+        Node currentNode = head;
+        int min = head.info;
+        
+        while(currentNode != null){
+            if (min > currentNode.info){
+                min = currentNode.info;
+            }
+            currentNode = currentNode.next;
+        }
+        return min;
+    }
+    
+    int findSum(){
+        Node currentNode = head;
+        int sum = 0;
+        while(currentNode != null){
+            sum += currentNode.info;
+            currentNode = currentNode.next;
+        }
+        return sum;
+    }
+    
+    double findAvg(){
+        if (isEmpty()){
+            System.out.println("The given list is empty");
+            return -1;
+        }
+        int arg = 0;
+        int count = 0;
+        Node currentNode = head;
+        while (currentNode != null){
+            count++;
+            arg = arg + currentNode.info;
+            currentNode = currentNode.next;
+        }
+        return (double)arg / (double)count;
+    }
+    
+    //1. Create the list
+    void createList(int listCount){
+        int val;
+        Random rnd = new Random();
+        
+        for (int i = 0; i < listCount; i++){
+            val = rnd.nextInt(listCount);
+            addToTail(val);
+        }
+    }
+    
+    boolean sorted(){
+        if (head == null || head.next == null){
+            return true;
+        }
+        Node currentNode = head;
+        while (currentNode.next != null){
+            if (currentNode.info > currentNode.next.info){
+                return false;
+            }
+            currentNode = currentNode.next;
+        }
+        return true;
+    }
 }

@@ -27,7 +27,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node.info: " + info ;
+        return " " + this.info ;
     }
     
     
