@@ -149,6 +149,11 @@ public class MyList<E extends Comparable<E>> {
 
         Node<E> currentNode = head;
         Node<E> pre_Node = new Node();
+        // if x is in head of linked list
+        if (head.info.equals(x)){
+            head = head.next;
+            return;
+        }
 
         //find the node previous of the the node want to delete
         while (!currentNode.info.equals(x) && currentNode.next != null) {
@@ -156,7 +161,7 @@ public class MyList<E extends Comparable<E>> {
             currentNode = currentNode.next;
         }
 
-        if (currentNode.next == null) {
+        if (currentNode.next == null && !currentNode.info.equals(x)) {
             System.out.println("The given list does not have x value.");
             return;
         }
@@ -211,4 +216,40 @@ public class MyList<E extends Comparable<E>> {
         currentNode.next = deletedNode.next;
         System.out.println("Delete sucessfull.");
     }   
+    
+    //get Object by position
+    public E getObject(int position){
+        if (isEmpty()) {
+            System.out.println("The list is empty.");
+        }
+        boolean check = false;
+        int count = 0;
+        Node<E> currentNode = head;
+        while (currentNode != null) {
+            // when Object exits in lined list
+            if (position == count) {
+                check = true;
+                break;
+            }
+            currentNode = currentNode.next;
+            count++;
+        }
+        // when Object not exits in linked list
+        return currentNode.info;
+    }
+    
+    
+    //get length of linkedList
+    public int length(){
+         if (isEmpty()) {
+            System.out.println("The list is empty.");
+        }
+        int count = 0;
+        Node<E> currentNode = head;
+        while (currentNode != null) {
+            currentNode = currentNode.next;
+            count++;
+        }
+        return count;
+    }
 }

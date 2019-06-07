@@ -26,14 +26,19 @@ public class Assigment01 {
         listProduct.addToHead(new Product("02", "Thinh", 30, 6.2));
         listProduct.addToHead(new Product("03", "Loc", 50, 10.2));
         listProduct.addToHead(new Product("06", "Thanh", 63, 69.2));
-        listProduct.traverse();
+        //listProduct.traverse();
         //listProduct.sort();
         //listProduct.traverse();
         //listProduct.addAfterPosition(1, new Product("09", "Ni", 2, 9));
         //listProduct.traverse();
         //System.out.println(listProduct.search(new Product("05", "", 0, 0)));
         //listProduct.traverse();
-        listProduct.deleteAfterNode(new Product("05", "", 0, 0));
+        //listProduct.deleteAfterNode(new Product("05", "", 0, 0));
+        //listProduct.traverse();
+        listProduct.delete(new Product("06", "", 0, 0));
         listProduct.traverse();
+        for (int i = 0; i < listProduct.length(); i++){
+            System.out.println(listProduct.getObject(i));
+        }
     }
 }
