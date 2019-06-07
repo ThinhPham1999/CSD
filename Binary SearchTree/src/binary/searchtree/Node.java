@@ -10,14 +10,22 @@ package binary.searchtree;
  * @author Thinh
  */
 public class Node {
-    int info;
-        Node left, right;
 
-        Node(int x) {
-            info = x;
-            left = right = null;
-        }
-        Node(){
-            
-        }
+    int info;
+    Node left, right;
+
+    Node(int x) {
+        info = x;
+        left = right = null;
+    }
+
+    Node() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "" + info;
+    }
+
 }

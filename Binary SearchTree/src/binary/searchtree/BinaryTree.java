@@ -1,5 +1,7 @@
 package binary.searchtree;
 
+import java.lang.annotation.Target;
+
 public class BinaryTree {
 
     Node root;
@@ -67,7 +69,7 @@ public class BinaryTree {
     }
 
     // caculate height of binary tree
-    int height(Node root) {
+    static int height(Node root) {
         if (root == null) {
             return 0;
         }
@@ -105,7 +107,7 @@ public class BinaryTree {
         preOrder(p.right);
     }
 
-    static void visit(Node p) {
+    private static void visit(Node p) {
         System.out.print(p.info + " ");
     }
 
@@ -166,7 +168,7 @@ public class BinaryTree {
         root = deleteRec(root, info);
     }
 
-    Node deleteRec(Node root, int info) {
+    private static Node deleteRec(Node root, int info) {
         // if tree is empty
         if (root == null) {
             return root;
@@ -195,7 +197,7 @@ public class BinaryTree {
     }
 
     //find min value in right binary tree
-    int minRight(Node root) {
+    private static int minRight(Node root) {
         int min = root.info;
         while (root.left != null) {
             min = root.left.info;
@@ -203,4 +205,194 @@ public class BinaryTree {
         }
         return min;
     }
+
+    //11. Find and return the node with minimum value in the tree.  
+    Node min() {
+        if (isEmpty()) {
+            return null;
+        }
+        Node p = root;
+        while (p.left != null) {
+            p = p.left;
+        }
+        return p;
+    }
+
+    //12. Find and return the node with maximun value in the tree
+    Node max() {
+        if (isEmpty()) {
+            return null;
+        }
+        Node p = root;
+        while (p.right != null) {
+            p = p.right;
+        }
+        return p;
+    }
+
+    //13. Return the sum of all values in the tree.  
+    int sum() {
+        if (isEmpty()) {
+            return 0;
+        } else {
+            return sumNode(root);
+        }
+    }
+
+    int sumNode(Node p) {
+        int count = p.info;
+        if (p.left != null) {
+            count += sumNode(p.left);
+        }
+        if (p.right != null) {
+            count += sumNode(p.right);
+        }
+        return count;
+    }
+
+    //14. Return the average of all values in the tree.
+    double avg() {
+        if (isEmpty()) {
+            return 0;
+        } else {
+            return sumNode(root) / getSize(root);
+        }
+    }
+
+    //15. The height of a tree is the maximum number of  edges on a path from the root to a leaf node (thus the height of a tree with root only is 0).
+    //Write a  function that returns the height of a binary tree.
+    int heightOfTree() {
+        return height(root) - 1;
+    }
+
+    //16. The cost of a path in a tree is sum of the keys of the nodes participating  in that path. 
+    //Write a  function that returns the cost of the most expensive  path from the root to a leaf node.
+    // it means find path have max value;
+    static int maxPath = Integer.MIN_VALUE;
+    static Node targetNode = null;
+
+    int MaxPath() {
+        if (isEmpty()) {
+            return 0;
+        }
+        calculatePath(root, 0);
+        return maxPath;
+    }
+
+    private static void calculatePath(Node node, int currentSum) {
+        // when found leaf
+        if (node == null) {
+            return;
+        }
+
+        currentSum += node.info;
+        if (maxPath < currentSum) {
+            maxPath = currentSum;
+            // take the current node(may be leaf)
+            targetNode = node;
+        }
+
+        // find maxPath in left subtree and right subtree
+        calculatePath(node.left, currentSum);
+        calculatePath(node.right, currentSum);
+    }
+
+    //17. Write a  function to determine whether a given binary tree is AVL or not.
+    // Tree is AVL is the tree which each node in tree has |heightleft - heightright| <= 1 
+    boolean isAVL(Node root) {
+        if (root == null) {
+            return true;
+        }
+        // count height in each subtree
+        int lheight = height(root.left);       
+        int rheight = height(root.right);
+        
+        if (Math.abs(lheight - rheight) <= 1
+                && isAVL(root.left)
+                && isAVL(root.right)) {
+            return true;
+        }
+        // not AVL 
+        return false;
+    }
+    
+    //19. Write a  function to determine whether a given binary tree is a heap.
+    boolean isHeap(){
+        if (isEmpty()){
+            return true;
+        }
+        int countnode = countNode();
+        if (isCompleted(root, 0, countnode)
+                && (isMinHeap(root)) || isMaxHeap(root)) return true;
+        return false;
+    }
+    
+    //check binary tree is completed or not (in book: near completed)
+    private static boolean isCompleted(Node root, int index, int number_nodes){
+        // An empty tree is complete 
+        if(root == null) 
+            return true; 
+          
+        // If index assigned to current node is more than 
+        // number of nodes in tree, then tree is not complete 
+        if(index >= number_nodes) 
+            return false; 
+          
+        // Recur for left and right subtrees 
+        return isCompleted(root.left, 2*index+1, number_nodes) &&  
+               isCompleted(root.right, 2*index+2, number_nodes);  
+    } 
+    
+    //check binary tree have min_heap or max_heap
+    //max_heap: node parent < node children
+    
+    private static boolean isMaxHeap(Node root) 
+    { 
+        //  Base case : single node satisfies property 
+        if(root.left == null && root.right==null) 
+            return true; 
+          
+        //  node will be in second last level 
+        if(root.right == null) 
+        { 
+            //  check heap property at Node 
+            //  No recursive call , because no need to check last level 
+            return root.info >= root.left.info; 
+        } 
+        else
+        { 
+            //  Check heap property at Node and 
+            //  Recursive check heap property at left and right subtree 
+            if(root.info >= root.left.info && root.info >= root.right.info) 
+                return isMaxHeap(root.left) && isMaxHeap(root.right); 
+            else
+                return false; 
+        } 
+    } 
+    
+    
+    //max_heap: node parent > node children
+    private static boolean isMinHeap(Node root) 
+    { 
+        //  Base case : single node satisfies property 
+        if(root.left == null && root.right==null) 
+            return true; 
+          
+        //  node will be in second last level 
+        if(root.right == null) 
+        { 
+            //  check heap property at Node 
+            //  No recursive call , because no need to check last level 
+            return root.info <= root.left.info; 
+        } 
+        else
+        { 
+            //  Check heap property at Node and 
+            //  Recursive check heap property at left and right subtree 
+            if(root.info <= root.left.info && root.info <= root.right.info) 
+                return isMinHeap(root.left) && isMinHeap(root.right); 
+            else
+                return false; 
+        } 
+    } 
 }
