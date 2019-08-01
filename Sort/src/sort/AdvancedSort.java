@@ -104,7 +104,7 @@ public class AdvancedSort {
         ArrayList<Employee> L = new ArrayList<>(); 
         ArrayList<Employee> R = new ArrayList<>(); 
   
-        // Set list for voiding null pointer
+        // Set list for avoiding null pointer
         for (int i=0; i<n1; ++i) 
             L.add(i, new Employee()); 
         for (int j=0; j<n2; ++j) 
