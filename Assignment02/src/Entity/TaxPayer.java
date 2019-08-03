@@ -84,7 +84,11 @@ public class TaxPayer implements Comparable<TaxPayer>{
 
     @Override
     public int compareTo(TaxPayer t) {
-        return this.code.compareTo(t.getCode());
+        //System.out.println(this.code + "    " + t.getCode());
+        int result = this.code.compareToIgnoreCase(t.getCode());
+        //boolean result1 = this.code.equalsIgnoreCase(t.code);
+        //System.out.println(result + "   " + result1);
+        return result;
 //        Integer other = t.getIncome();
 //        Integer tax = this.getIncome();
 //        return tax.compareTo(other);

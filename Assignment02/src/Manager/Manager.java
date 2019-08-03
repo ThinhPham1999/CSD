@@ -48,7 +48,7 @@ public class Manager {
 
             while ((thisLine = br.readLine()) != null) {
                 String[] parts = thisLine.split("\\|");
-                list.insertTo(new TaxPayer(parts[0], parts[1], Double.parseDouble(parts[3].trim())));
+                list.insertTo(new TaxPayer(parts[0].trim(), parts[1].trim(), Double.parseDouble(parts[3].trim())));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,12 +56,9 @@ public class Manager {
     }
 
     private static void visit(Node<TaxPayer> p, FileWriter fw) throws IOException {
-        
         fw.write(p.getInfo().getCode() + " | " + p.getInfo().getName() + " | "
                 + p.getInfo().getIncome() + " | " + p.getInfo().getDeduct() + " | "
                 + p.getInfo().getTax() + "\n");
-
-        
     }
     
     private static void inOrderFile(Node<TaxPayer> p, FileWriter fw) throws IOException{
@@ -79,4 +76,27 @@ public class Manager {
         fw.close();
     }
     
+    public static void search(AVLBinaryTree<TaxPayer> list){
+        System.out.print("Enter code want to find: ");
+        String code = Validate.checkInputString();
+        Node<TaxPayer> found = list.search(list.root, new TaxPayer(code, "", 0));
+        if (found != null){
+            System.out.println(found.getInfo());
+        }else{
+            System.out.println("Not found.");
+        }
+    }
+    
+    public static void delete(AVLBinaryTree<TaxPayer> list){
+        System.out.print("Enter code want to delete: ");
+        String code = Validate.checkInputString();
+        Node<TaxPayer> found = list.search(list.root, new TaxPayer(code, "", 0));
+        if (found != null){
+            list.delete(found.getInfo());
+            System.out.println("Delete sucessfull.");
+        }else{
+            System.out.println("Not found this code.");
+        }
+    }
+        
 }

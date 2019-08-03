@@ -315,7 +315,7 @@ public class AVLBinaryTree<E extends Comparable<E>> {
     }
     
     // Count and return number of nodes in the tree
-    int countNode() {
+    public int countNode() {
         if (root == null) {
             return 0;
         } else {
@@ -336,7 +336,7 @@ public class AVLBinaryTree<E extends Comparable<E>> {
     
     //3. Search node having value x.
     // Return value if yes, null if not found.
-    Node search(Node<E> p, E x) {
+    public Node search(Node<E> p, E x) {
         if (p == null) {
             return (null);
         }

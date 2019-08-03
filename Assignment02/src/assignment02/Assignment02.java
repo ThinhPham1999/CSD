@@ -27,6 +27,11 @@ public class Assignment02 {
         //Manager.Manager.writeFile(list);
         Manager.loadFile(list, "test.txt");
         list.preOrder(list.root);
+        System.out.println("");
+        
+        Manager.search(list);
+        Manager.delete(list);
+        
     }
     
 }
